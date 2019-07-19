@@ -16,7 +16,7 @@ class NotEmptyValidatorTest extends TestCase {
 
         $isValid = $notEmptyValidator->isValid();
 
-        $this->assertFalse(isValid);
+        $this->assertFalse($isValid);
  }
  public function testshouldBevalidWhenValueIsNotEmpty (){
 
@@ -25,7 +25,7 @@ class NotEmptyValidatorTest extends TestCase {
 
     $isValid = $notEmptyValidator->isValid();
 
-    $this->assertTrue(isValid);
+    $this->assertTrue($isValid);
 }
 
 }
