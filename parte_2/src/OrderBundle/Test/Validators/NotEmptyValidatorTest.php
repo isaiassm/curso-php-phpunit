@@ -7,25 +7,24 @@ use PHPUnit\Framework\TestCase;
 class NotEmptyValidatorTest extends TestCase {
     
     /**
-     * @test
+     * @dataProvider valueProvider
      */
-    public function testshouldBevalidWhenValueIsEmpty (){
+    public function testtIsValid ($value, $expecteResult){
 
-        $emptyValue = "";
-        $notEmptyValidator = new NotEmptyValidator($emptyValue);
+            $notEmptyValidator = new NotEmptyValidator($value);
+    
+            $isValid = $notEmptyValidator->isValid();
+    
+            $this->assertEquals($expecteResult ,$isValid);  
+           
+    }
 
-        $isValid = $notEmptyValidator->isValid();
+    public function valueProvider ()
+    {
+        return [
+            'shouldBeValidWhenValueIsNotEmpty' => ['value' => 'foo', 'expectedResult' => true],
+            'shouldNotBeValidWhenValueIsEmpty' => ['value' => '', 'expectedResult' => false]
 
-        $this->assertFalse($isValid);
- }
- public function testshouldBevalidWhenValueIsNotEmpty (){
-
-    $notEmptyValue = "foo";
-    $notEmptyValidator = new NotEmptyValidator($notEmptyValue);
-
-    $isValid = $notEmptyValidator->isValid();
-
-    $this->assertTrue($isValid);
-}
-
+        ];
+    }
 }
