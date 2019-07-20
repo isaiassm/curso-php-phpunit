@@ -9,7 +9,7 @@ class NotEmptyValidatorTest extends TestCase {
     /**
      * @dataProvider valueProvider
      */
-    public function testtIsValid ($value, $expecteResult){
+    public function testIsValid ($value, $expecteResult){
 
             $notEmptyValidator = new NotEmptyValidator($value);
     
