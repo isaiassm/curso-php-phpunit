@@ -43,4 +43,36 @@ class PaymentServiceTest extends TestCase
 
         $paymentsService->pay($customer , $item, $CreditCard);
     }
+
+    /**
+     * @test
+     */
+    public function shouldThrowExceptionWhenGatewayFails()
+    {
+        $gateway = $this->createMock(Gateway::class);
+
+        $paymentTransactionRepository = $this->createMock(PaymentTransactionRepository::class);
+
+
+        $paymentsService = new PaymentService($gateway, $paymentTransactionRepository);
+
+        $gateway
+            ->expects($this->atLeast(3))
+            ->method('pay')
+            ->will($this->onConsecutiveCalls(
+                false, false, false
+            ));
+
+        $paymentTransactionRepository
+                ->expects($this->never())
+                ->method('save'); 
+                
+        $this->expectException(PaymentErrorException::class);        
+
+        $customer = $this->createMock(Customer::class);
+        $item = $this->createMock(Item::class);
+        $CreditCard = $this->createMock(CreditCard::class);
+
+        $paymentsService->pay($customer , $item, $CreditCard);
+    }
 }
