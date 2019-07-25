@@ -66,46 +66,29 @@ class GatewayTest extends TestCase
 
         $logger = $this->createMock(LoggerInterface::class);
 
-        $name = 'Joao carneiro';
-        $CreditCardNumber =  5226516516515161651;
-        $validity = new \DateTime('now');
-        $value = 100;
+        
         $token = 'meu-token';
         $user = 'test';
         $password =  'valid password';        
         $gateway = new Gateway($httpClient,  $logger, $user, $password);
 
-        $map = [
-            [
-                'POST',
-                Gateway::BASE_URL . '/authenticate',
-                [
-                 'user' =>  $user,
-                 'password' => $password 
-                ],
-                $token
-            ],
-            [
-                'POST',
-                Gateway::BASE_URL . '/pay',
-                [
-                    'name' =>  $name,
-                    'credit_card_number' =>  $CreditCardNumber,
-                    'validity' => $validity,
-                    'value' => $value,
-                    'token' => $token
-                ],
-                ['paid' => false]
-            ]
 
-        ];
 
         $httpClient
-                ->expects($this->atLeast(2))
+                ->expects($this->at(0))
                 ->method('send')
-                ->will($this->returnValueMap($map));
+                ->willReturn( $token);
             
-         $paid = $gateway->pay(
+        $httpClient
+                ->expects($this->at(1))
+                ->method('send')
+                ->willReturn(['paid' => false]);
+
+        $name = 'Joao carneiro';
+        $CreditCardNumber =  5226516516515161651;
+        $validity = new \DateTime('now');
+        $value = 100;    
+        $paid = $gateway->pay(
             $name,
             $CreditCardNumber,
             $validity,
