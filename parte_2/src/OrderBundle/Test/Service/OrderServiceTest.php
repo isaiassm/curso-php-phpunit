@@ -107,11 +107,8 @@ class OrderServiceTest extends TestCase
     {
         $this->withOrderService()
             ->withCustomerAloowed()
-            ->withIsAvailableItem(); 
-        
-        $this->badWordsValidator
-            ->method('hasBadWords')
-            ->willRetunr(false);   
+            ->withIsAvailableItem()
+            ->withBadWordsFound();
         
         $paymentTransaction = $this->createMock(PaymentTransaction::class);    
         
@@ -123,9 +120,6 @@ class OrderServiceTest extends TestCase
             ->expects($this->once())
             ->method('save');
 
-
-
-        $this->expectException(BadWordsFoundException::class);    
 
         $createOrder = $this->orderService->process(
             $this->customer,
@@ -167,7 +161,7 @@ class OrderServiceTest extends TestCase
     public function withNotIsAvailableItem()
     {
         $this->item
-        ->method['isAvailable']
+        ->method('isAvailable')
         ->willReturn(false);    
 
         return $this;
@@ -176,7 +170,7 @@ class OrderServiceTest extends TestCase
     public function withIsAvailableItem()
     {
         $this->item
-        ->method['isAvailable']
+        ->method('isAvailable')
         ->willReturn(true);    
 
         return $this;
@@ -186,7 +180,7 @@ class OrderServiceTest extends TestCase
     {
         $this->badWordsValidator
         ->method('hasBadWords')
-        ->willRetunr(true);    
+        ->willReturn(true);    
 
         return $this;
     }

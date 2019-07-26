@@ -22,7 +22,7 @@ class PaymentServiceTest extends TestCase
     private $CreditCard;
 
     //utilizado na maioria dos teste, deve-se trazer todo material que seja replicado para o setUp, exeto cenarios.
-    public function setUp()
+    public function setUp():void
     {
         $this->gateway = $this->createMock(Gateway::class);
         $this->paymentTransactionRepository = $this->createMock(PaymentTransactionRepository::class);
@@ -81,7 +81,7 @@ class PaymentServiceTest extends TestCase
         $this->paymentsService->pay($this->customer , $this->item, $this->CreditCard);
     }
 
-    public function tearDown()
+    public function tearDown():void
     {
         unset($this->gateway);
     }
